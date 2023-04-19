@@ -23,20 +23,17 @@ connection <- dbConnect(drv = dbDriver("Postgres"),
                         host = Sys.getenv("aws_host"),
                         port = Sys.getenv("aws_port"),
                         user = Sys.getenv("aws_user"),
-                        password = Sys.getenv("aws_password"),
-                        options="-c search_path='survey_data'") 
-
-dbExecute(connection,"set search_path = 'survey_data'")
+                        password = Sys.getenv("aws_password"))
 
 ```
 
 # View Schema 
 ```{r}
 
-survey_data <- dm_from_con(connection)
+survey_data <- dm_from_con(connection, schema = 'survey_data')
 
 survey_data %>% 
-  dm_draw(view_type = "all", graph_name = 'survey_data', focus = 'survey_data')
+  dm_draw(view_type = "all", rankdir = "RL", columnArrows = F, graph_name = 'survey_data', focus = F)
 
 ```
 
